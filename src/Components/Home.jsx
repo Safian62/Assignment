@@ -9,18 +9,21 @@ const data = [
     name: "Pre-Travel Check",
     url: "good.png",
     icon: "->",
+    color: "#C3EBE5",
   },
   {
     id: 2,
     name: "Video Consultation",
     url: "video.png",
     icon: "->",
+    color: "#FFF0A6",
   },
   {
     id: 3,
     name: "Documentation Support",
     url: "good.png",
     icon: "->",
+    color: "#C4DAEA",
   },
 ];
 const Home = () => {
@@ -67,11 +70,12 @@ const Home = () => {
             We'll Handle The Meds!
           </h3>
         </div>
-        <div className="flex justify-center  gap-2 mt-10">
+        <div className="flex justify-center gap-20 mt-10">
           {data.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-center gap-4 bg-blue-200 rounded-2xl px-4"
+              style={{ backgroundColor: item.color }}
+              className={`flex items-center justify-center gap-4 rounded-2xl px-4`}
             >
               <h2>{item.name}</h2>
               <div className="flex justify-center gap-2 items-center">
@@ -80,6 +84,56 @@ const Home = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="w-full p-20 bg-blue-400 mt-10 text-center">
+          <h2 className="text-4xl text-white font-bold">Enjoy Dubai</h2>
+          <h1 className="text-4xl text-white font-bold">
+            We'll handle the meds
+          </h1>
+          <div className="h-100 w-100 mx-auto">
+            <img src="/group.png" className="h-full bg-contain w-full" alt="" />
+          </div>
+          <div className="flex gap-5 justify-center flex-wrap lg:flex-nowrap px-5">
+            <div className="bg-blue-700 rounded-xl py-8 px-6 text-center flex flex-col items-center justify-center min-h-[400px] max-w-[350px]">
+              <h2 className="text-3xl text-white font-bold mb-4">
+                Is my prescription
+              </h2>
+              <div className="h-[180px] w-[180px] mx-auto mb-4">
+                <img
+                  src="pricription.png"
+                  alt="Prescription"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h2 className="text-3xl text-blue-200 font-bold mb-6">
+                legal here?
+              </h2>
+              <p className="text-sm font-semibold text-white leading-relaxed">
+                Healthcare laws in the UAE are strict. Some common painkillers,
+                anxiety medications, and ADHD treatments that are legal back
+                home may be controlled or restricted in Dubai.
+              </p>
+            </div>
+
+            <div className="bg-blue-700 rounded-xl py-8 px-6 text-center flex flex-col items-center justify-center min-h-[400px] max-w-[350px]">
+              <h2 className="text-3xl text-white font-bold">Don't guess.</h2>
+              <h2 className="text-3xl text-blue-200 font-bold mb-6">
+                Know for sure.
+              </h2>
+              <p className="text-sm font-semibold text-white leading-relaxed mb-6">
+                We translate complex UAE medication regulations into clear
+                guidance—so you can travel, live, and refill prescriptions
+                safely and legally.
+              </p>
+              <div className="h-[180px] w-[180px] mx-auto">
+                <img
+                  src="female.png"
+                  alt="Healthcare professional"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
