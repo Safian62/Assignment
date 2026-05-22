@@ -20,6 +20,5 @@ If you are developing a production application, we recommend using TypeScript wi
 Set the frontend API base URL with `VITE_API_URL` in a `.env` file. Example values live in `.env.example`.
 
 - Development (local proxy or backend): `VITE_API_URL=http://localhost:3000/api`
-- Production (remote API): `VITE_API_URL=https://expatcares.ae/api`
 
 When using cookies for auth, ensure the API supports CORS with `credentials: true` and sets cookies with `HttpOnly` in production.
