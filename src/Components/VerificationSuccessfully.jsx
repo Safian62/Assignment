@@ -15,7 +15,10 @@ const VerificationSuccessful = () => {
         </div>
 
         <div className="h-full bg-white rounded-3xl -translate-x-20 shadow-lg p-10 relative">
-          <button className="absolute left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center">
+          <button
+            className="absolute cursor-pointer left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
+            onClick={() => navigate("/")}
+          >
             <CgClose className="text-blue-600" />
           </button>
 

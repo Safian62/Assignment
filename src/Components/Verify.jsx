@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
 import { CgClose } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 const VerifyOtp = () => {
   const [code, setCode] = useState(Array(6).fill(""));
   const inputsRef = useRef([]);
-
+  const navigate = useNavigate();
   const handleChange = (index, event) => {
     const value = event.target.value.replace(/[^0-9]/g, "");
     if (!value && !event.target.value) {
@@ -45,7 +46,10 @@ const VerifyOtp = () => {
         </div>
 
         <div className="h-full bg-white rounded-3xl -translate-x-20 shadow-lg p-10 relative">
-          <button className="absolute left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center">
+          <button
+            className="absolute left-5 cursor-pointer top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
+            onClick={() => navigate("/")}
+          >
             <CgClose className="text-blue-600" />
           </button>
 

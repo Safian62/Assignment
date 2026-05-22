@@ -2,12 +2,15 @@ import { useState } from "react";
 import { BsEye } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(name, password);
@@ -24,7 +27,10 @@ const Login = () => {
         </div>
 
         <div className="h-full bg-white rounded-2xl shadow-lg p-10 -translate-x-10 relative">
-          <button className="absolute left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center">
+          <button
+            className="absolute cursor-pointer left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
+            onClick={() => navigate("/")}
+          >
             <CgClose className="text-blue-600" />
           </button>
 

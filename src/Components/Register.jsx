@@ -5,6 +5,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import PhoneInputLib from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { registerPatient } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const PhoneInput =
   PhoneInputLib && PhoneInputLib.default
@@ -18,7 +19,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
-  // replace handleSubmit with this
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +60,10 @@ const Register = () => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-20 -translate-x-15 relative">
-          <button className="absolute left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center">
+          <button
+            className="absolute cursor-pointer left-5 top-5 w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
+            onClick={() => navigate("/")}
+          >
             <CgClose className="text-blue-600" />
           </button>
 
