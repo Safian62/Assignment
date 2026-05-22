@@ -41,7 +41,10 @@ const VerificationSuccessful = () => {
             </p>
           </div>
 
-          <div className="mt-10 max-w-sm mx-auto" onClick={() => navigate("/")}>
+          <div
+            className="mt-10 max-w-sm mx-auto"
+            onClick={() => navigate("/login")}
+          >
             <button className="w-full cursor-pointer bg-blue-600 text-white py-3 rounded-full text-base font-semibold">
               Continue To Dashboard
             </button>

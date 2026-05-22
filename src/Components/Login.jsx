@@ -3,17 +3,37 @@ import { BsEye } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { authAPI } from "../services/api";
+import { saveAccessToken } from "../utils/cookies";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name, password);
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await authAPI.login({ email, password });
+      console.log("login response:", response.raw);
+      const token = response.token;
+      if (token) {
+        saveAccessToken(token);
+        navigate("/");
+      } else {
+        setError("Login failed: no token returned.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
@@ -41,17 +61,17 @@ const Login = () => {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-1">
-                Full name <span className="text-red-500">*</span>
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email address <span className="text-red-500">*</span>
               </label>
               <input
-                id="name"
-                name="name"
-                type="text"
-                value={name}
+                id="email"
+                name="email"
+                type="email"
+                value={email}
                 required
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your full name"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
                 className="w-full border border-gray-200 rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-200"
               />
             </div>
@@ -92,11 +112,13 @@ const Login = () => {
             <div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-full font-semibold"
+                disabled={loading}
+                className="w-full cursor-pointer bg-blue-600 text-white py-3 rounded-full font-semibold disabled:opacity-60"
               >
-                Log In
+                {loading ? "Signing in..." : "Log In"}
               </button>
             </div>
+            {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
           </form>
 
           <div className="text-center text-gray-600 mt-6">

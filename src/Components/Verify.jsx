@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { CgClose } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { authAPI } from "../services/api";
 
 const VerifyOtp = () => {
   const [code, setCode] = useState(Array(6).fill(""));
@@ -29,9 +30,26 @@ const VerifyOtp = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("OTP entered:", code.join(""));
+
+    const otp = code.join("");
+
+    if (otp.length !== 6) {
+      alert("Please enter 6-digit OTP");
+      return;
+    }
+
+    try {
+      const email = localStorage.getItem("otp_email");
+      await authAPI.verifyEmail({
+        email,
+        otp,
+      });
+      navigate("/verify-successfull"); 
+    } catch (error) {
+      alert(error.response?.data?.message || "Invalid OTP");
+    }
   };
 
   return (
@@ -96,7 +114,7 @@ const VerifyOtp = () => {
 
             <button
               type="submit"
-              className="mt-8 w-full bg-blue-600 text-white py-3 rounded-full text-base font-semibold"
+              className="mt-8 cursor-pointer w-full bg-blue-600 text-white py-3 rounded-full text-base font-semibold"
             >
               Continue
             </button>

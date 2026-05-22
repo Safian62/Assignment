@@ -4,7 +4,7 @@ import { CgClose } from "react-icons/cg";
 import { FaRegEyeSlash } from "react-icons/fa";
 import PhoneInputLib from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { registerPatient } from "../utils/api";
+import { authAPI } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const PhoneInput =
@@ -22,8 +22,11 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
       setLoading(true);
@@ -35,15 +38,16 @@ const Register = () => {
         phone,
       };
 
-      const data = await registerPatient(payload);
+      const response = await authAPI.register(payload);
+      localStorage.setItem("otp_email", email);
 
-      console.log(data);
+      const message = response.data?.message || "OTP sent to your email.";
 
-      alert("OTP sent to your email");
-    } catch (error) {
-      console.log(error);
-
-      alert(error?.response?.data?.message || "Something went wrong");
+      alert(message);
+      navigate("/verify-otp");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -99,8 +103,9 @@ const Register = () => {
               <input
                 id="email"
                 name="email"
-                type="text"
+                type="email"
                 value={email}
+                required
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="w-full border border-gray-200 rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-200"
@@ -160,11 +165,13 @@ const Register = () => {
             <div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-full font-semibold"
+                disabled={loading}
+                className="w-full cursor-pointer bg-blue-600 text-white py-3 rounded-full font-semibold disabled:opacity-60"
               >
-                Continue
+                {loading ? "Submitting..." : "Continue"}
               </button>
             </div>
+            {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
           </form>
 
           <div className="text-center text-gray-600 mt-6">

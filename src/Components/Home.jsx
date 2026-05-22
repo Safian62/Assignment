@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsPerson, BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { getCookie, clearAccessToken } from "../utils/cookies";
 
 const data = [
   {
@@ -23,20 +24,37 @@ const data = [
   },
 ];
 const Home = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
 
-    const navigate = useNavigate()
+  useEffect(() => {
+    setLoggedIn(!!getCookie("accessToken"));
+  }, []);
+  const navigate = useNavigate();
   return (
     <div>
       <div>
         <div className="flex justify-between items-center px-5">
           <img src="/header-img.png" alt="" />
           <div className="flex gap-2">
-            <div
-              className="px-2 py-1 h-fit text-xl cursor-pointer text-black rounded-full flex items-center justify-center gap-2 shadow-md border border-gray-200"
-              onClick={() => navigate("/login")}
-            >
-              <BsPerson /> Log In
-            </div>
+            {loggedIn ? (
+              <div
+                className="px-2 py-1 h-fit text-xl cursor-pointer text-black rounded-full flex items-center justify-center gap-2 shadow-md border border-gray-200"
+                onClick={() => {
+                  clearAccessToken();
+                  setLoggedIn(false);
+                  navigate("/");
+                }}
+              >
+                Logout
+              </div>
+            ) : (
+              <div
+                className="px-2 py-1 h-fit text-xl cursor-pointer text-black rounded-full flex items-center justify-center gap-2 shadow-md border border-gray-200"
+                onClick={() => navigate("/login")}
+              >
+                <BsPerson /> Log In
+              </div>
+            )}
             <button>
               {" "}
               <BsThreeDots />{" "}
